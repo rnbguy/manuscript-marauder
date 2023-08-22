@@ -9,13 +9,13 @@ Download manuscripts using a (socks5) proxy or open-access server.
 ## Usage
 
 ```
-./marauder.ts -sp ssh://user@open-access-server 10.48550/arXiv.2302.13971
+./cli.ts -sp ssh://user@open-access-server 10.48550/arXiv.2302.13971
 ```
 
 ## Help
 
 ```
-./marauder.ts -h
+./cli.ts -h
 
 Usage:   marauder <doi>
 Version: 0.1.0
