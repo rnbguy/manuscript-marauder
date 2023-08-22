@@ -50,7 +50,6 @@ export class MarauderPuppeteer {
 
   async pdfLinks(doiUrl: URL): Promise<URL[]> {
     this.proxy?.start();
-
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     try {

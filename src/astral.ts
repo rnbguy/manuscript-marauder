@@ -6,7 +6,7 @@ import * as log from "https://deno.land/std@0.199.0/log/mod.ts";
 import {
   Browser,
   launch,
-} from "https://github.com/lino-levan/astral/raw/4c302918b3/mod.ts";
+} from "https://github.com/lino-levan/astral/raw/c235ed5/mod.ts";
 
 import { Socks5Proxy } from "./mod.ts";
 
@@ -45,17 +45,16 @@ export class MarauderAstral {
     return new URL(doiResponse.url);
   }
 
-  async pdfLinks(doi: string): Promise<URL[]> {
+  async pdfLinks(doiUrl: URL): Promise<URL[]> {
     this.proxy?.start();
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     try {
-      const url = await this.resolveDoiLink(doi);
-
       const page = await this.browser?.newPage();
       //Allow JS.
       // await page?.setJavaScriptEnabled(true);
 
-      await page?.goto(url.toString(), { waitUntil: "networkidle2" });
+      await page?.goto(doiUrl.toString(), { waitUntil: "networkidle2" });
 
       let pdfLinks: string[] = await page?.evaluate(() => {
         return Array.from(document.querySelectorAll("a")).map(
@@ -65,7 +64,7 @@ export class MarauderAstral {
 
       await page?.close();
 
-      pdfLinks = pdfLinks?.map((link) => new URL(link, url).href);
+      pdfLinks = pdfLinks?.map((link) => new URL(link, doiUrl).href);
       pdfLinks = [...new Set(pdfLinks)];
       pdfLinks.sort();
 
@@ -79,6 +78,7 @@ export class MarauderAstral {
 
   async downloadPdf(pdfUrl: URL, original: URL): Promise<Uint8Array> {
     this.proxy?.start();
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     try {
       const page = await this.browser?.newPage();

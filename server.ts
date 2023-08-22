@@ -5,7 +5,7 @@ import "https://deno.land/std/dotenv/load.ts";
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import { slugify } from "https://deno.land/x/slugify@0.3.0/mod.ts";
 
-import { MarauderPuppeteer as Marauder } from "./src/mod.ts";
+import { MarauderAstral as Marauder } from "./src/mod.ts";
 
 const marauder = new Marauder();
 await marauder.init(
