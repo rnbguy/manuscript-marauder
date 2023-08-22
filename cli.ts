@@ -41,10 +41,18 @@ const command = new Command()
 
         log.info(`PDF links: ${pdfLinks}`);
 
-        const pdfLink = await Select.prompt({
-          message: "Select PDF",
-          options: pdfLinks.map((v) => v.href),
-        });
+        let pdfLink: string;
+
+        if (pdfLinks.length === 0) {
+          throw new Error("No PDF links found");
+        } else if (pdfLinks.length === 1) {
+          pdfLink = pdfLinks[0].href;
+        } else {
+          pdfLink = await Select.prompt({
+            message: "Select PDF",
+            options: pdfLinks.map((v) => v.href),
+          });
+        }
 
         log.info(`Downloading ${pdfLink}`);
 
