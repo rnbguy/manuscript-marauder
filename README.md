@@ -41,3 +41,7 @@ Options:
   -p, --proxy    <proxy>   - Proxy server to use. Accepts ssh://<user@host> for `ssh -NTD 1234 user@host`.  (Default: "socks5://localhost:1234")
   -o, --output   <output>  - Output file name. Defaults to <doi>.pdf
 ```
+
+## TODO
+
+- Abstract away astral and puppeteer interface.
