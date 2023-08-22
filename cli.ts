@@ -7,7 +7,7 @@ import { Select } from "https://deno.land/x/cliffy@v1.0.0-rc.3/prompt/select.ts"
 
 import { slugify } from "https://deno.land/x/slugify@0.3.0/mod.ts";
 
-import { Marauder } from "./marauder.ts";
+import { MarauderPuppeteer as Marauder } from "./src/mod.ts";
 
 const command = new Command()
   .name("marauder")
