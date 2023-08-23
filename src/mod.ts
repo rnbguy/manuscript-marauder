@@ -53,9 +53,14 @@ export class Marauder<O extends Orchastrator> {
     let pdfLinks: string[] = await this.orchastrator.goto_and_evaluate(
       doiUrl.toString(),
       () => {
-        return Array.from(document.querySelectorAll("a")).map(
-          (el) => el?.getAttribute("href"),
-        ).filter((v) => v?.includes("pdf"));
+        // sometimes the links are stored under different elemenets and attributes
+        // iterating over all elements and attributes
+
+        return Array.from(document.querySelectorAll("*")).map((el) =>
+          el.getAttributeNames().map((a: string) => el.getAttribute(a)).filter((
+            v: string,
+          ) => v.includes("pdf") && v.includes("/")).flat()
+        );
       },
     );
 
