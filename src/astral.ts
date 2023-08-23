@@ -26,13 +26,9 @@ export class AstralOrchastrator implements Orchastrator {
     ...args: P
   ): Promise<T> {
     const page = await this.browser?.newPage();
-
     await page?.goto(url, { waitUntil: "networkidle2" });
-
     const result = await page?.evaluate(func, { args });
-
     await page?.close();
-
     return result;
   }
 

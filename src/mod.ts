@@ -26,8 +26,8 @@ export class Marauder<O extends Orchastrator> {
   async init(proxy?: string) {
     if (proxy) {
       this.proxy = new Socks5Proxy(proxy);
-      await this.orchastrator.init(this.proxy.url());
       this.proxy?.start();
+      await this.orchastrator.init(this.proxy.url());
     } else {
       await this.orchastrator.init();
     }

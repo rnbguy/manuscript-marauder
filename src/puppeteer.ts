@@ -32,13 +32,9 @@ export class PuppeteerOrchatrator implements Orchastrator {
   ): Promise<T> {
     const page = await this.browser?.newPage();
     await page?.setJavaScriptEnabled(true);
-
     await page?.goto(url, { waitUntil: "networkidle2" });
-
     const result = await page?.evaluate(func, ...args);
-
     await page?.close();
-
     return result as T;
   }
 
