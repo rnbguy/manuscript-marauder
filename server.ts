@@ -1,13 +1,13 @@
-import { signal } from "https://deno.land/std/signal/mod.ts";
+import { signal } from "https://deno.land/std@0.199.0/signal/mod.ts";
+import "https://deno.land/std@0.199.0/dotenv/load.ts";
 
-import "https://deno.land/std/dotenv/load.ts";
-
-import { Application, Router } from "https://deno.land/x/oak/mod.ts";
+import { Application, Router } from "https://deno.land/x/oak@v12.6.0/mod.ts";
 import { slugify } from "https://deno.land/x/slugify@0.3.0/mod.ts";
 
-import { MarauderAstral as Marauder } from "./src/mod.ts";
+import { Marauder } from "./src/mod.ts";
+import { AstralOrchastrator } from "./src/astral.ts";
 
-const marauder = new Marauder();
+const marauder = new Marauder(new AstralOrchastrator());
 await marauder.init(
   Deno.env.get("PROXY") ?? "socks5://localhost:1234",
 );

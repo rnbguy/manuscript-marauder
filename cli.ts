@@ -2,17 +2,21 @@
 
 import * as log from "https://deno.land/std@0.199.0/log/mod.ts";
 
-import { Command } from "https://deno.land/x/cliffy@v1.0.0-rc.3/command/mod.ts";
+import {
+  Command,
+  EnumType,
+} from "https://deno.land/x/cliffy@v1.0.0-rc.3/command/mod.ts";
 import { Select } from "https://deno.land/x/cliffy@v1.0.0-rc.3/prompt/select.ts";
 
 import { slugify } from "https://deno.land/x/slugify@0.3.0/mod.ts";
 
-import { MarauderAstral as Marauder } from "./src/mod.ts";
+import { Marauder } from "./src/mod.ts";
 
 const command = new Command()
   .name("marauder")
   .version("0.1.0")
   .arguments("<doi:string>")
+  .globalType("backend", new EnumType(["astral", "puppeteer"]))
   .option(
     "-p --proxy <proxy:string>",
     "Proxy server to use. Accepts ssh://<user@host> for `ssh -NTD 1234 user@host`.",
@@ -24,9 +28,31 @@ const command = new Command()
     "-o --output <output:string>",
     "Output file name. Defaults to <doi>.pdf",
   )
+  .option(
+    "-b --backend <backend:backend>",
+    "Backend to use.",
+    {
+      default: "astral",
+    },
+  )
   .action(
-    async ({ proxy, output }, doi: string) => {
-      const marauder = new Marauder();
+    async ({ proxy, output, backend }, doi: string) => {
+      let marauder;
+
+      switch (backend) {
+        case "astral":
+          marauder = new Marauder(
+            new (await import("./src/astral.ts")).AstralOrchastrator(),
+          );
+          break;
+        case "puppeteer":
+          marauder = new Marauder(
+            new (await import("./src/puppeteer.ts")).PuppeteerOrchatrator(),
+          );
+          break;
+        default:
+          throw new Error(`Unknown backend: ${backend}`);
+      }
 
       try {
         await marauder.init(
@@ -64,6 +90,7 @@ const command = new Command()
           const pdfName = `${slugify(doi)}.pdf`;
           await Deno.writeFile(pdfName, pdfData);
         }
+        log.info(`Downloaded.`);
       } finally {
         marauder.close();
       }

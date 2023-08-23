@@ -36,12 +36,9 @@ Version: 0.1.0
 
 Options:
 
-  -h, --help               - Show this help.
-  -V, --version            - Show the version number for this program.
-  -p, --proxy    <proxy>   - Proxy server to use. Accepts ssh://<user@host> for `ssh -NTD 1234 user@host`.  (Default: "socks5://localhost:1234")
-  -o, --output   <output>  - Output file name. Defaults to <doi>.pdf
+  -h, --help                - Show this help.
+  -V, --version             - Show the version number for this program.
+  -p, --proxy    <proxy>    - Proxy server to use. Accepts ssh://<user@host> for `ssh -NTD 1234 user@host`.  (Default: "socks5://localhost:1234")
+  -o, --output   <output>   - Output file name. Defaults to <doi>.pdf
+  -b, --backend  <backend>  - Backend to use.                                                                (Default: "astral", Values: "astral", "puppeteer")
 ```
-
-## TODO
-
-- Abstract away astral and puppeteer interface.

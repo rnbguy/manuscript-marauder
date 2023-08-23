@@ -5,7 +5,7 @@ export class Socks5Proxy {
     this.path = new URL(path);
   }
 
-  proxyUrl(): string {
+  url(): string {
     if (this.path.protocol === "ssh:") {
       return "socks5://localhost:1234";
     } else {
