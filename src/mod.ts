@@ -57,7 +57,6 @@ export class Marauder<O extends Orchastrator> {
           (el) => el?.getAttribute("href"),
         ).filter((v) => v?.includes("pdf"));
       },
-      [],
     );
 
     pdfLinks = pdfLinks?.map((link) => new URL(link, doiUrl).href);
