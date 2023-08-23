@@ -1,6 +1,9 @@
 export class Socks5Proxy {
-  path: URL;
   sshChildProcess?: Deno.ChildProcess;
+  recoverLoop?: Promise<void>;
+
+  closed = false;
+  path: URL;
   constructor(path: string) {
     this.path = new URL(path);
   }
@@ -15,22 +18,31 @@ export class Socks5Proxy {
 
   start() {
     if (this.path.protocol === "ssh:") {
-      this.sshChildProcess = new Deno.Command("ssh", {
-        args: [
-          "-4NTD",
-          "1234",
-          "-o",
-          "ExitOnForwardFailure=yes",
-          this.path.host,
-        ],
-      }).spawn();
+      this.recoverLoop = (async () => {
+        while (!this.closed) {
+          this.sshChildProcess = new Deno.Command("ssh", {
+            args: [
+              "-4NTD",
+              "1234",
+              "-o",
+              "ExitOnForwardFailure=yes",
+              this.path.host,
+            ],
+          }).spawn();
+          await this.sshChildProcess.status;
+        }
+      })();
     }
   }
 
   async end() {
     if (this.sshChildProcess) {
-      this.sshChildProcess.kill("SIGINT");
-      await this.sshChildProcess.status;
+      try {
+        this.sshChildProcess.kill("SIGINT");
+      } finally {
+        this.closed = true;
+        await this.recoverLoop;
+      }
     }
   }
 }
