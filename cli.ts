@@ -20,9 +20,6 @@ const command = new Command()
   .option(
     "-p --proxy <proxy:string>",
     "Proxy server to use. Accepts ssh://<user@host> for `ssh -NTD 1234 user@host`.",
-    {
-      default: "socks5://localhost:1234",
-    },
   )
   .option(
     "-o --output <output:string>",
