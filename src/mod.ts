@@ -91,10 +91,18 @@ export class Marauder<O extends Orchastrator> {
           });
           return base64url.substring(base64url.indexOf(",") + 1);
         }
-        return await bufferToBase64(await resp.blob());
+
+        if (resp.headers.get("content-type")?.includes("application/pdf")) {
+          return await bufferToBase64(await resp.blob());
+        } else {
+          return undefined;
+        }
       },
       pdfUrl.toString(),
     );
+    if (!base64Data) {
+      throw new Error("PDF could not be downloaded");
+    }
     return b64Decode(base64Data);
   }
 
