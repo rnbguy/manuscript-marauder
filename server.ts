@@ -1,5 +1,5 @@
-import { signal } from "https://deno.land/std@0.199.0/signal/mod.ts";
-import "https://deno.land/std@0.199.0/dotenv/load.ts";
+import { signal } from "https://deno.land/std@0.200.0/signal/mod.ts";
+import "https://deno.land/std@0.200.0/dotenv/load.ts";
 
 import { Application, Router } from "https://deno.land/x/oak@v12.6.0/mod.ts";
 import { slugify } from "https://deno.land/x/slugify@0.3.0/mod.ts";

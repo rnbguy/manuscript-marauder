@@ -1,7 +1,7 @@
 import {
   decode as b64Decode,
-} from "https://deno.land/std@0.199.0/encoding/base64.ts";
-import * as log from "https://deno.land/std@0.199.0/log/mod.ts";
+} from "https://deno.land/std@0.200.0/encoding/base64.ts";
+import * as log from "https://deno.land/std@0.200.0/log/mod.ts";
 
 import { Socks5Proxy } from "./proxy.ts";
 

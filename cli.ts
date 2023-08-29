@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --unstable -A
 
-import * as log from "https://deno.land/std@0.199.0/log/mod.ts";
+import * as log from "https://deno.land/std@0.200.0/log/mod.ts";
 
 import {
   Command,
