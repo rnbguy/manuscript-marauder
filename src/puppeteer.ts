@@ -25,7 +25,7 @@ export class PuppeteerOrchatrator implements Orchastrator {
     }
   }
 
-  async goto_and_evaluate<T, P extends unknown[]>(
+  async goto_and_evaluate<T, P extends Array<unknown>>(
     url: string,
     func: (...params: P) => T,
     ...args: P
