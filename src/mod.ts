@@ -44,7 +44,7 @@ export class Marauder<O extends Orchastrator> {
       throw new Error(`DOI could not be resolved: ${doiResponse}`);
     }
 
-    console.log("DOI resolved to URL:", doiResponse.url);
+    log.debug("DOI resolved to URL:", doiResponse.url);
 
     return new URL(doiResponse.url);
   }
