@@ -59,8 +59,8 @@ export class Marauder<O extends Orchastrator> {
         return Array.from(document.querySelectorAll("*")).map((el) =>
           el.getAttributeNames().map((a: string) => el.getAttribute(a)).filter((
             v: string,
-          ) => v.includes("pdf") && v.includes("/")).flat()
-        );
+          ) => v.includes("pdf") && v.includes("/"))
+        ).flat();
       },
     );
 
