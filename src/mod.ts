@@ -7,11 +7,13 @@ import { Socks5Proxy } from "./proxy.ts";
 
 export interface Orchastrator {
   init(proxy?: string): Promise<void>;
+  finalUrl(url: string): Promise<string>;
   gotoAndEvaluate<T, P extends Array<unknown>>(
     url: string,
     func: (...params: P) => T,
     ...args: P
   ): Promise<T>;
+  gotoAndContent(url: string): Promise<string>;
   close(): Promise<void>;
 }
 

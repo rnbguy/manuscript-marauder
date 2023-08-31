@@ -25,6 +25,15 @@ export class PuppeteerOrchatrator implements Orchastrator {
     }
   }
 
+  async finalUrl(url: string): Promise<string> {
+    const page = await this.browser?.newPage();
+    await page?.setJavaScriptEnabled(true);
+    page?.goto(url, { waitUntil: "networkidle2" });
+    const result = page?.url();
+    await page?.close();
+    return result as string;
+  }
+
   async gotoAndEvaluate<T, P extends Array<unknown>>(
     url: string,
     func: (...params: P) => T,
@@ -36,6 +45,14 @@ export class PuppeteerOrchatrator implements Orchastrator {
     const result = await page?.evaluate(func, ...args);
     await page?.close();
     return result as T;
+  }
+
+  async gotoAndContent(url: string): Promise<string> {
+    const page = await this.browser?.newPage();
+    await page?.goto(url, { waitUntil: "networkidle2" });
+    const result = await page?.content();
+    await page?.close();
+    return result as string;
   }
 
   async close() {
