@@ -115,3 +115,5 @@ for await (const _ of signals) {
 signals.dispose();
 
 await listenPromise;
+
+marauder.close();
