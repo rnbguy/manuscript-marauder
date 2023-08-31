@@ -20,7 +20,7 @@ export class AstralOrchastrator implements Orchastrator {
     }
   }
 
-  async goto_and_evaluate<T, P extends Array<unknown>>(
+  async gotoAndEvaluate<T, P extends Array<unknown>>(
     url: string,
     func: (...params: P) => T,
     ...args: P

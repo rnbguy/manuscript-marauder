@@ -7,7 +7,7 @@ import { Socks5Proxy } from "./proxy.ts";
 
 export interface Orchastrator {
   init(proxy?: string): Promise<void>;
-  goto_and_evaluate<T, P extends Array<unknown>>(
+  gotoAndEvaluate<T, P extends Array<unknown>>(
     url: string,
     func: (...params: P) => T,
     ...args: P
@@ -50,7 +50,7 @@ export class Marauder<O extends Orchastrator> {
   }
 
   async pdfLinks(doiUrl: URL): Promise<Array<URL>> {
-    let pdfLinks: Array<string> = await this.orchastrator.goto_and_evaluate(
+    let pdfLinks: Array<string> = await this.orchastrator.gotoAndEvaluate(
       doiUrl.toString(),
       () => {
         // sometimes the links are stored under different elemenets and attributes
@@ -74,7 +74,7 @@ export class Marauder<O extends Orchastrator> {
   }
 
   async downloadPdf(pdfUrl: URL, original: URL): Promise<Uint8Array> {
-    const base64Data = await this.orchastrator.goto_and_evaluate(
+    const base64Data = await this.orchastrator.gotoAndEvaluate(
       original.toString(),
       async (downloadUrl: string) => {
         const resp = await fetch(downloadUrl, { credentials: "include" });
