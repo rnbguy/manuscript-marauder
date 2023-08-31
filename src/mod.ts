@@ -51,7 +51,8 @@ export class Marauder<O extends Orchastrator> {
     return new URL(doiResponse.url);
   }
 
-  async pdfLinks(doiUrl: URL): Promise<Array<URL>> {
+  async pdfLinks(doi: string): Promise<Array<URL>> {
+    const doiUrl = await this.resolveDoiLink(doi);
     let pdfLinks: Array<string> = await this.orchastrator.gotoAndEvaluate(
       doiUrl.toString(),
       () => {
@@ -75,9 +76,11 @@ export class Marauder<O extends Orchastrator> {
     return pdfLinks.map((link) => new URL(link));
   }
 
-  async downloadPdf(pdfUrl: URL, original: URL): Promise<Uint8Array> {
+  async downloadPdf(doi: string, pdfUrl: URL): Promise<Uint8Array> {
+    const doiUrl = await this.resolveDoiLink(doi);
+
     const base64Data = await this.orchastrator.gotoAndEvaluate(
-      original.toString(),
+      doiUrl.toString(),
       async (downloadUrl: string) => {
         const resp = await fetch(downloadUrl, { credentials: "include" });
 

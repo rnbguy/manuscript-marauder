@@ -56,11 +56,7 @@ const command = new Command()
           proxy,
         );
 
-        const doiLink = await marauder.resolveDoiLink(doi);
-
-        log.info(`DOI link: ${doiLink}`);
-
-        const pdfLinks = await marauder.pdfLinks(doiLink);
+        const pdfLinks = await marauder.pdfLinks(doi);
 
         log.info(`PDF links: ${pdfLinks}`);
 
@@ -79,7 +75,7 @@ const command = new Command()
 
         log.info(`Downloading ${pdfLink}`);
 
-        const pdfData = await marauder.downloadPdf(new URL(pdfLink), doiLink);
+        const pdfData = await marauder.downloadPdf(doi, new URL(pdfLink));
 
         if (output) {
           await Deno.writeFile(output, pdfData);

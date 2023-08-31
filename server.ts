@@ -47,8 +47,7 @@ router
     const doi = `${context?.params?.prefix}/${context?.params?.suffix}`;
 
     try {
-      const doiUrl = await marauder.resolveDoiLink(doi);
-      const pdfLinks = await marauder.pdfLinks(doiUrl);
+      const pdfLinks = await marauder.pdfLinks(doi);
 
       context.response.headers.set("Content-Type", "application/json");
       context.response.body = Object.fromEntries(
@@ -65,17 +64,12 @@ router
     const paginate = parseInt(context?.params?.paginate ?? "0");
 
     try {
-      const doiUrl = await marauder.resolveDoiLink(doi);
-      const pdfLinks = await marauder.pdfLinks(doiUrl);
+      const pdfLinks = await marauder.pdfLinks(doi);
 
       if (paginate >= pdfLinks.length) {
         throw new Error(`paginate index out of range`);
       }
-
-      const buffer = await marauder.downloadPdf(
-        pdfLinks[paginate],
-        doiUrl,
-      );
+      const buffer = await marauder.downloadPdf(doi, pdfLinks[paginate]);
 
       context.response.headers.set("Content-Type", "application/pdf");
       // context.response.headers.set('Content-Disposition', `attachment; filename="${slugify(doiId)}.pdf"`);
