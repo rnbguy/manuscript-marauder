@@ -48,7 +48,7 @@ export class Marauder<O extends Orchastrator> {
     }
   }
 
-  async resolveDoiLink(doi: string): Promise<URL> {
+  async resolveDoiLinkOld(doi: string): Promise<URL> {
     const url = `https://doi.org/${doi}`;
 
     const doiResponse = await fetch(url, {
@@ -89,7 +89,7 @@ export class Marauder<O extends Orchastrator> {
     return pdfLinks.map((link) => new URL(link));
   }
 
-  async resolveDoiLinkNew(doi: string): Promise<URL> {
+  async resolveDoiLink(doi: string): Promise<URL> {
     const resp = await fetch(`https://doi.org/api/handles/${doi}`);
     const data = await resp.json();
     const url = data.values.filter((v: { type: string }) => v.type === "URL")[0]
