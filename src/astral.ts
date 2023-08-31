@@ -1,7 +1,7 @@
 import {
   Browser,
   launch,
-} from "https://github.com/lino-levan/astral/raw/c235ed5/mod.ts";
+} from "https://github.com/lino-levan/astral/raw/0fd73cf/mod.ts";
 
 import { Orchastrator } from "./mod.ts";
 
