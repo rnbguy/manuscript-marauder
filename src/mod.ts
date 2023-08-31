@@ -17,6 +17,19 @@ export interface Orchastrator {
   close(): Promise<void>;
 }
 
+function getAllUrl(obj: unknown): Array<string> {
+  if (typeof obj === "string") {
+    if (obj.startsWith("http://") || obj.startsWith("https://")) {
+      return [obj];
+    }
+  } else if (Array.isArray(obj)) {
+    return obj.flatMap(getAllUrl);
+  } else if (typeof obj === "object") {
+    return Object.values(obj).flatMap(getAllUrl);
+  }
+  return [];
+}
+
 export class Marauder<O extends Orchastrator> {
   orchastrator: O;
   proxy?: Socks5Proxy;
@@ -74,6 +87,33 @@ export class Marauder<O extends Orchastrator> {
     log.debug("DOI page has PDFs:", pdfLinks);
 
     return pdfLinks.map((link) => new URL(link));
+  }
+
+  async resolveDoiLinkNew(doi: string): Promise<URL> {
+    const resp = await fetch(`https://doi.org/api/handles/${doi}`);
+    const data = await resp.json();
+    const url = data.values.filter((v: { type: string }) => v.type === "URL")[0]
+      .data.value
+      .replace("http://", "https://");
+    return new URL(url);
+  }
+
+  async pdfLinksNew(doi: string): Promise<Array<URL>> {
+    const resp = await fetch(`https://dx.doi.org/${doi}`, {
+      headers: {
+        Accept: "application/vnd.citationstyles.csl+json",
+      },
+    });
+
+    const data = await resp.json();
+    console.log(data);
+    const allUrls = [...new Set(getAllUrl(data))];
+    console.log("allUrls", allUrls);
+    const allPdfs = allUrls.filter((url) => url.includes("pdf")).map((url) =>
+      url.replace("http://", "https://")
+    ).map((url) => new URL(url));
+    console.log(allPdfs);
+    return allPdfs;
   }
 
   async downloadPdf(doi: string, pdfUrl: URL): Promise<Uint8Array> {
