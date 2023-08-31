@@ -5,9 +5,9 @@ import { Application, Router } from "https://deno.land/x/oak@v12.6.0/mod.ts";
 import { slugify } from "https://deno.land/x/slugify@0.3.0/mod.ts";
 
 import { Marauder } from "./src/mod.ts";
-import { AstralOrchastrator } from "./src/astral.ts";
+import { AstralOrchastrator as Orchastrator } from "./src/astral.ts";
 
-const marauder = new Marauder(new AstralOrchastrator());
+const marauder = new Marauder(new Orchastrator());
 await marauder.init(
   Deno.env.get("PROXY") ?? "socks5://localhost:1234",
 );
